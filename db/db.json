@@ -1,0 +1,19 @@
+{
+  "todos": [
+    {
+      "id": "168d",
+      "title": "fare la spesa",
+      "done": false
+    },
+    {
+      "id": "a9b3",
+      "title": "comprare il giornale",
+      "done": false
+    },
+    {
+      "id": "b793",
+      "title": "pisciare il cane",
+      "done": true
+    }
+  ]
+}
