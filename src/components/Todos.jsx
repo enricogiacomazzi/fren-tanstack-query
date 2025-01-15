@@ -1,22 +1,33 @@
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
 
 const url = 'http://localhost:3000/todos';
 
 export const Todos = () => {
     const inputRef = useRef();
+    const mutation = useMutation({
+        mutationFn: title => axios.post(url,{title, done: false})
+    });
+    const queryClient = useQueryClient();
     const {data, isLoading} = useQuery({
         queryKey: ['todos'],
         queryFn: () => axios.get(url).then(x => x.data)
       });
 
-    const add = e => {
+    const add = async e => {
         if(e.key !== 'Enter') {
             return;
         }
         const title = inputRef.current.value;
-        console.log(title);
+        mutation.mutate(title, {
+            onSuccess: data => {
+                // const newTodo = data.data;
+                // queryClient.setQueryData(
+                //     ['todos'], old => [...old, newTodo])
+                queryClient.invalidateQueries(['todos']);
+            }
+        });
 
         inputRef.current.value = '';
     }
